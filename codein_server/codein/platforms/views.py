@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Project
-from .serializers import ProjectSerializer
+from .models import Project, Portfolio
+from .serializers import ProjectSerializer, PortfolioSerializer
 
 
 class ProjectView(viewsets.ModelViewSet):
@@ -9,6 +9,12 @@ class ProjectView(viewsets.ModelViewSet):
     model = Project
     serializer_class = ProjectSerializer
 
+class PortfoliotView(viewsets.ModelViewSet):
+
+    queryset = Portfolio.objects.none()
+    model = Portfolio
+    serializer_class = PortfolioSerializer
+    
     def get_queryset(self):
 
         return self.model.objects.all()
