@@ -4,7 +4,7 @@ from .models import Project, Portfolio
 
 class PortfolioSerializer(serializers.ModelSerializer):
 
-    user = serializers.Field('user.username')
+#    user = serializers.Field('user.username')
 
     class Meta:
         model = Portfolio
@@ -14,7 +14,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
 
-    user = serializers.Field('user.username')
+#    user = serializers.Field('user.username')
 
     class Meta:
         model = Project
