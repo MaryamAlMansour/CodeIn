@@ -11,4 +11,6 @@ class User(models.Model):
     standard_c = models.BooleanField(default=False)
     c_plus_plus = models.BooleanField(default=False)
     other_language = models.CharField(max_length=12)
+
+
     
