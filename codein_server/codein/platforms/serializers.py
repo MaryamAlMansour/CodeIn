@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from .models import Project, Portfolio
 from rest_framework.parsers import JSONParser
+from rest_framework.renderers import JSONRenderer
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
-
     user = serializers.Field(source='user.username')
 
     class Meta:
@@ -14,7 +14,6 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-
     user = serializers.Field(source='user.username')
 
     class Meta:
@@ -23,19 +22,20 @@ class ProjectSerializer(serializers.ModelSerializer):
         exclude = ['created_at', 'updated_at']
 
         # deserializing the create and update
-        def create(self, **validated_data):
+    def create(self, **validated_data):
             """ Create and return a new `Text` instance, given the validated data. """
             return Project.user.objects.create(**validated_data)
 
-        def update(self, instance, validated_data):
+    def update(self, instance, validated_data):
             """ Update and return an existing `Text` instance, given the validated data. """
             instance.name = validated_data.get('name', instance.name)
-            instance.description = validated_data.get('code', instance.code)
+            instance.description = validated_data.get('description', instance.description)
             instance.save()
             return instance
 
 # serializing object instance & queryset
+instance = Project.objects.all().first()
+serializer = ProjectSerializer(instance, many=True)
+json = JSONRenderer().render(serializer.instance)
 
-Project_instance = Project.objects.all().first()
-serializer = ProjectSerializer(Project_instance, many=True)
 
