@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'server',
     'platforms',
+    'search',
 ]
 
 MIDDLEWARE = [
