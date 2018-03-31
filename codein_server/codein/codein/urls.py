@@ -22,8 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('rest_auth.urls')),
     url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls',)),
     url(r'^refresh-token/', refresh_jwt_token),
     url(r'^platform/', include('platforms.urls')),
-    url(r'^search/', include('search.urls')),
+    #url(r'^search/', include('search.urls')),
 ]

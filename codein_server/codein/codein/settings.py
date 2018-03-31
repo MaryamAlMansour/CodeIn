@@ -25,6 +25,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,10 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'rest_framework_jwt',
     'rest_auth.registration',
     'server',
     'platforms',
-    'search',
+
 ]
 
 MIDDLEWARE = [
@@ -126,6 +128,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # REST Framework Specific Authentication Parameters
+# registering the custom user model as a django server model to be used.
+AUTH_USER_MODEL = 'server.User'
+
 
 # Configure the JWTs to expire after 1 hour, and allow users to refresh near-expiration tokens
 JWT_AUTH = {
@@ -133,10 +138,18 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
+
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    )
+    ),
+}
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'server.serializers.UserDetailsSerializer',
 }
 
 # Enables django-rest-auth to use JWT tokens instead of regular tokens.

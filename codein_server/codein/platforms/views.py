@@ -1,23 +1,30 @@
 from rest_framework import viewsets
 from .models import Project, Portfolio
-from .serializers import ProjectSerializer, PortfolioSerializer
+from .serializers import ProjectSerializerRead, PortfolioSerializer, ProjectSerializerWrite
 
 
-class ProjectView(viewsets.ModelViewSet):
+class ProjectReadView(viewsets.ModelViewSet):
 
-    queryset = Project.objects.none()
+    queryset = Project.objects.all()
     model = Project
-    serializer_class = ProjectSerializer
+    serializer_class = ProjectSerializerRead
 
-class PortfoliotView(viewsets.ModelViewSet):
 
-    queryset = Portfolio.objects.none()
+class PortfolioView(viewsets.ModelViewSet):
+
+    queryset = Portfolio.objects.all()
     model = Portfolio
     serializer_class = PortfolioSerializer
-    
-    def get_queryset(self):
 
-        return self.model.objects.all()
+
+class ProjectWriteView(viewsets.ModelViewSet):
+
+    queryset = Project.objects.all()
+    model = Project
+    serializer_class = ProjectSerializerWrite
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 """
     def perform_create(self, serializer):

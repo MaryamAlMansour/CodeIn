@@ -5,37 +5,27 @@ from rest_framework.renderers import JSONRenderer
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
-    user = serializers.Field(source='user.username')
+    user = serializers.StringRelatedField()
 
     class Meta:
         model = Portfolio
         # you can either include all the fields from models, or excludes the ones you don't need.
-        exclude = ['created_at', 'updated_at']
+        fields = ('user', 'image',)
 
 
-class ProjectSerializer(serializers.ModelSerializer):
-    user = serializers.Field(source='user.username')
+class ProjectSerializerRead(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
 
     class Meta:
         model = Project
         # you can either include all the fields from models, or excludes the ones you don't need.
-        exclude = ['created_at', 'updated_at']
+        fields = ('user', 'name', 'description',)
 
-        # deserializing the create and update
-    def create(self, **validated_data):
-            """ Create and return a new `Text` instance, given the validated data. """
-            return Project.user.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-            """ Update and return an existing `Text` instance, given the validated data. """
-            instance.name = validated_data.get('name', instance.name)
-            instance.description = validated_data.get('description', instance.description)
-            instance.save()
-            return instance
+class ProjectSerializerWrite(serializers.ModelSerializer):
 
-# serializing object instance & queryset
-instance = Project.objects.all().first()
-serializer = ProjectSerializer(instance, many=True)
-json = JSONRenderer().render(serializer.instance)
-
+    class Meta:
+        model = Project
+        # you can either include all the fields from models, or excludes the ones you don't need.
+        exclude = ['created_at', 'updated_at', 'user']
 
