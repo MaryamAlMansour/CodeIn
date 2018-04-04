@@ -10,8 +10,9 @@ from django.contrib.auth.base_user import AbstractBaseUser
 
 class User(PermissionsMixin, AbstractBaseUser):
     username = models.CharField(max_length=12, unique=True)
-    password = models.CharField(max_length=20)
-    email = models.CharField(max_length=40)
+    #PASSWORD relies on django parent class
+    password = models.CharField(_('password'), max_length=128)
+    email = models.CharField(max_length=20)
     USER_CHOICES = ((1, 'Regular User'), (2, 'Developer'))
     developer = models.IntegerField(choices=USER_CHOICES, default='1')
     python = models.BooleanField(default=False)
@@ -21,7 +22,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     HTML = models.BooleanField(default=False)
     CSS = models.BooleanField(default=False)
     JavaScript = models.BooleanField(default=False)
-    OtherLanguages = models.CharField(max_length=12)
+    OtherLanguages = models.CharField(max_length=12, blank=True)
 
     is_staff = models.BooleanField(
         _('staff status'),
