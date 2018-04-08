@@ -19,6 +19,6 @@ class MyUserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('username', 'email')
 
-
+#get_user_model points to our user model
 admin.site.register(get_user_model(), MyUserAdmin)
 
