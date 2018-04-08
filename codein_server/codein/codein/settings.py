@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'server',
     'platforms',
+    #'follow',
 
 ]
 
@@ -138,7 +139,7 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
-
+#making api authenticared first line
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

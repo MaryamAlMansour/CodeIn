@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls',)),
     url(r'^refresh-token/', refresh_jwt_token),
     url(r'^platform/', include('platforms.urls')),
+  	#url('^', include('follow.urls')),
     #url(r'^search/', include('search.urls')),
 ]

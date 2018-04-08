@@ -4,9 +4,9 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import AbstractBaseUser
 
-
 # Create your models here.
 #Extending the abstractBaseUser class.
+
 
 class User(PermissionsMixin, AbstractBaseUser):
     username = models.CharField(max_length=12, unique=True)
@@ -23,6 +23,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     CSS = models.BooleanField(default=False)
     JavaScript = models.BooleanField(default=False)
     OtherLanguages = models.CharField(max_length=12, blank=True)
+    following = models.ManyToManyField('self', through='platforms.Contact', related_name='followers', symmetrical=False)
 
     is_staff = models.BooleanField(
         _('staff status'),

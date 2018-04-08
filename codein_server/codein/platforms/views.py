@@ -1,6 +1,31 @@
 from rest_framework import viewsets
-from .models import Project, Portfolio
-from .serializers import ProjectSerializerRead, PortfolioSerializer, ProjectSerializerWrite
+from .models import Project, Portfolio, Contact
+from .serializers import ProjectSerializerRead, PortfolioSerializerRead, PortfolioSerializerWrite, ProjectSerializerWrite, ContactSerializer
+
+
+class FollowersView(viewsets.ModelViewSet):
+
+    queryset = Contact.objects.all()
+    model = Contact
+    serializer_class = ContactSerializer
+
+
+class PortfolioWriteView(viewsets.ModelViewSet):
+
+    queryset = Portfolio.objects.all()
+    model = Portfolio
+    serializer_class = PortfolioSerializerWrite
+
+    def perform_create(self, serializer):
+        #Force author to the current user on save
+        serializer.save(user=self.request.user)
+
+
+class PortfolioReadView(viewsets.ModelViewSet):
+
+    queryset = Portfolio.objects.all()
+    model = Portfolio
+    serializer_class = PortfolioSerializerRead
 
 
 class ProjectReadView(viewsets.ModelViewSet):
@@ -10,13 +35,6 @@ class ProjectReadView(viewsets.ModelViewSet):
     serializer_class = ProjectSerializerRead
 
 
-class PortfolioView(viewsets.ModelViewSet):
-
-    queryset = Portfolio.objects.all()
-    model = Portfolio
-    serializer_class = PortfolioSerializer
-
-
 class ProjectWriteView(viewsets.ModelViewSet):
 
     queryset = Project.objects.all()
@@ -24,10 +42,6 @@ class ProjectWriteView(viewsets.ModelViewSet):
     serializer_class = ProjectSerializerWrite
 
     def perform_create(self, serializer):
+        #Force author to the current user on save
         serializer.save(user=self.request.user)
 
-"""
-    def perform_create(self, serializer):
-        #Force author to the current user on save
-        serializer.save(author=self.request.user)
-"""
