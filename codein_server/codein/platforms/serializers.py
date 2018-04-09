@@ -4,7 +4,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
 
-class ContactSerializer(serializers.ModelSerializer):
+class ContactSerializerRead(serializers.ModelSerializer):
 
     class Meta:
         model = Contact

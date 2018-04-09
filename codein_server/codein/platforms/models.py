@@ -37,4 +37,3 @@ class Contact(models.Model):
 
     def __str__(self):
         return '{} follows {}'.format(self.user_from, self.user_to)
-
