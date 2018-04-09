@@ -33,6 +33,7 @@ def activate_user(request, username):
         User = get_user_model()
         user = User.objects.get(username=username)
         user.is_active = True
+        print(user.portfolio.image)
         user.save()
         context['msg'] = 'Profile successfully enabled.'
     except User.DoesNotExist:
