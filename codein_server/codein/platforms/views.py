@@ -1,7 +1,8 @@
 from rest_framework import viewsets
 from .models import Project, Portfolio, Contact
 from .serializers import ProjectSerializerRead, PortfolioSerializerRead, PortfolioSerializerWrite, ProjectSerializerWrite, ContactSerializerRead
-from url_filter.integrations.drf import DjangoFilterBackend
+from rest_framework.decorators import list_route
+from rest_framework.response import Response
 
 
 class FollowersReadView(viewsets.ModelViewSet):
@@ -27,30 +28,32 @@ class PortfolioReadView(viewsets.ModelViewSet):
     queryset = Portfolio.objects.all()
     model = Portfolio
     serializer_class = PortfolioSerializerRead
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['user']
 
 
 class ProjectReadView(viewsets.ModelViewSet):
 
     queryset = Project.objects.all()
-    model = Project
     serializer_class = ProjectSerializerRead
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['user','name']
 
-
-
-'''
-    def get_queryset(self):
-        # allow rest api to filter by submissions 
+    @list_route(methods=['get'])
+    def get_search_proj(self, request):
         queryset = Project.objects.all()
-        user = self.request.query_params.get('user', None)
-        if user is not None:
-            queryset = queryset.filter(user=user)
 
-        return queryset
-'''
+        search_proj_name = None
+        search_user_projs = None
+
+        if 'search_proj_name' in self.request.query_params:
+            search_proj_name = self.request.query_params['search_proj_name']
+        if search_proj_name:
+            queryset = queryset.filter(name=search_proj_name)
+
+        if 'search_user_projs' in self.request.query_params:
+            search_user_projs = self.request.query_params['search_user_projs']
+        if search_user_projs:
+            queryset = queryset.filter(user=search_user_projs)
+
+        serializer = ProjectSerializerRead(queryset, many=True, context=self.get_serializer_context())
+        return Response(serializer.data)
 
 
 class ProjectWriteView(viewsets.ModelViewSet):
