@@ -4,7 +4,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
 
-class ContactSerializer(serializers.ModelSerializer):
+class ContactSerializerRead(serializers.ModelSerializer):
 
     class Meta:
         model = Contact
@@ -36,6 +36,25 @@ class ProjectSerializerRead(serializers.ModelSerializer):
         model = Project
         # you can either include all the fields from models, or excludes the ones you don't need.
         fields = ('user', 'name', 'description',)
+
+
+
+
+
+'''
+        def __init__(self, *args, **kwargs):
+
+            super(ProjectSerializerRead, self).__init__(*args, **kwargs)
+            request = self.context.get("request")
+            if request and request.query_params.get('fields'):
+                fields = request.query_params.get('fields')
+                if fields:
+                    fields = fields.split(',')
+                    allowed = set(fields)
+                    existing = set(self.fields.keys())
+                    for field_name in existing - allowed:
+                        self.fields.pop(field_name)
+'''
 
 
 class ProjectSerializerWrite(serializers.ModelSerializer):
