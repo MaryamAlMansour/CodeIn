@@ -1,6 +1,5 @@
 # SSW-695 Project
 
-![alt text][logo]
 [logo]: https://github.com/MaryamAlMansour/695-CodeIn/blob/master/codein_server/Documentation/Maktab%207ukomi%20logo.png
 
 ## CodeIn
