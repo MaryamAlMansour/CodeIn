@@ -1,6 +1,6 @@
 # SSW-695 Project
 
-![alt text](https://github.com/MaryamAlMansour/695-CodeIn/blob/master/codein_server/Documentation/Maktab%207ukomi%20logo.png)
+![alt text](https://github.com/MaryamAlMansour/695-CodeIn/blob/master/codein_server/Documentation/github%20codein.JPG)
 
 ## CodeIn
 Platform for coders to network and freelance. 
