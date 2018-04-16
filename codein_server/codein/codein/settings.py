@@ -42,15 +42,18 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_framework_jwt',
     'rest_auth.registration',
+    'corsheaders',
     'server',
     'platforms',
-    #'filters',
+    'django_filters',
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # Adding in CORS middleware to interface with Front End
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -156,6 +159,14 @@ REST_FRAMEWORK = {
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'server.serializers.UserDetailsSerializer',
 }
+
+# Enable CORS Requests from front end
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+    'ssw695-18s.herokuapp.com',
+)
+
+ACCOUNT_EMAIL_VERIFICATION = None
 
 # Enables django-rest-auth to use JWT tokens instead of regular tokens.
 REST_USE_JWT = True
