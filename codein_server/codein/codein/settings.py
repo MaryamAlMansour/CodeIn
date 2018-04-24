@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'server',
     'platforms',
     'django_filters',
-
 ]
 
 MIDDLEWARE = [
@@ -150,10 +149,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
-
-    'DEFAULT_FILTER_BACKENDS': (
-            'url_filter.integrations.drf.DjangoFilterBackend',
-    )
 }
 
 REST_AUTH_SERIALIZERS = {
