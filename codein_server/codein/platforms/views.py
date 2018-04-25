@@ -1,11 +1,8 @@
 from rest_framework import viewsets
 from .models import Project, Portfolio, Contact
-from .serializers import ProjectSerializerRead, PortfolioSerializerRead, PortfolioSerializerWrite, ProjectSerializerWrite, ContactSerializerRead
+from .serializers import ProjectSerializerRead, PortfolioSerializerRead, PortfolioSerializerWrite, ProjectSerializerWrite, ContactSerializerRead, ContactSerializerWrite
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import status
-from django.contrib.auth import get_user_model
 
 
 class FollowersReadView(viewsets.ModelViewSet):
@@ -13,6 +10,17 @@ class FollowersReadView(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     model = Contact
     serializer_class = ContactSerializerRead
+
+
+class FollowersWriteView(viewsets.ModelViewSet):
+
+    queryset = Contact.objects.all()
+    model = Contact
+    serializer_class = ContactSerializerWrite
+
+    def perform_create(self, serializer):
+        #Force author to the current user on save
+        serializer.save()
 
 
 class PortfolioWriteView(viewsets.ModelViewSet):
@@ -68,36 +76,4 @@ class ProjectWriteView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         #Force author to the current user on save
         serializer.save(user=self.request.user)
-
-
-@api_view(['GET',])
-def delete_portfolio(request, username):
-    context = {}
-
-    try:
-        User = get_user_model()
-        user = User.objects.get(username=username)
-        user.portfolio.delete()
-        context['msg'] = 'Portfolio successfully deleted.'
-    except User.DoesNotExist:
-        context['msg'] = 'User does not exist.'
-    except Exception as e:
-        context['msg'] = str(e)
-    print(context['msg'])
-    return Response(status=status.HTTP_200_OK)
-
-@api_view(['GET',])
-def delete_project(request, username):
-    context = {}
-
-    try:
-        User = get_user_model()
-        user = User.objects.get(username=username)
-        print(user.project)
-    except User.DoesNotExist:
-        context['msg'] = 'User does not exist.'
-    except Exception as e:
-        context['msg'] = str(e)
-    print(context['msg'])
-    return Response(status=status.HTTP_200_OK)
 

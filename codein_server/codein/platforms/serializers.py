@@ -12,6 +12,18 @@ class ContactSerializerRead(serializers.ModelSerializer):
         ordering = ('-created',)
 
 
+class ContactSerializerWrite(serializers.ModelSerializer):
+
+    class Meta:
+        model = Contact
+        fields = '__all__'
+        read_only_fields = ('created',)
+
+    def create(self, validated_data):
+        obj = Contact.objects.create(**validated_data)
+        return obj
+
+
 class PortfolioSerializerRead(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
 

@@ -1,3 +1,30 @@
+'''
+test platform Models
+--------------------------------
+'''
+
 from django.test import TestCase
 
-# Create your tests here.
+
+
+
+
+'''
+test platform Serializers
+--------------------------------
+'''
+
+
+
+
+'''
+test platform Views
+--------------------------------
+'''
+
+
+
+'''
+test platform API
+--------------------------------
+'''
