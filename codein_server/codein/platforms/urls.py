@@ -4,14 +4,14 @@ from django.conf.urls import url
 
 
 router = routers.SimpleRouter()
-router.register(r'project', ProjectReadView)
+router.register(r'project/', ProjectReadView)
 router.register(r'project/get_search_proj/(?P<search_proj_name>\w+)/', ProjectReadView)
 router.register(r'project/get_search_proj/(?P<search_user_projs>\w+)/',ProjectReadView)
-router.register(r'project_write', ProjectWriteView)
-router.register(r'portfolio', PortfolioReadView)
-router.register(r'portfolio_write', PortfolioWriteView)
-router.register(r'followers', FollowersReadView)
-router.register(r'followers_write', FollowersWriteView)
+router.register(r'project_write/', ProjectWriteView)
+router.register(r'portfolio/', PortfolioReadView)
+router.register(r'portfolio_write/', PortfolioWriteView)
+router.register(r'followers/', FollowersReadView)
+router.register(r'followers_write/', FollowersWriteView)
 
 urlpatterns = router.urls
 
