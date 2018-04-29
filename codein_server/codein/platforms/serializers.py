@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Project, Portfolio, Contact
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
-
+from rest_framework.validators import UniqueTogetherValidator
 
 class ContactSerializerRead(serializers.ModelSerializer):
 
@@ -10,6 +10,12 @@ class ContactSerializerRead(serializers.ModelSerializer):
         model = Contact
         fields = ('user_from', 'user_to',)
         ordering = ('-created',)
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Contact.objects.all(),
+                fields = ('user_from', 'user_to')
+            )
+        ]
 
 
 class PortfolioSerializerRead(serializers.ModelSerializer):

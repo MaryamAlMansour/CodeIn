@@ -53,7 +53,10 @@ class ProjectReadView(viewsets.ModelViewSet):
         if 'search_user_projs' in self.request.query_params:
             search_user_projs = self.request.query_params['search_user_projs']
         if search_user_projs:
-            queryset = queryset.filter(user=search_user_projs)
+            if isinstance(search_user_projs, int):
+                queryset = queryset.filter(user=search_user_projs)
+            else:
+                queryset = []
 
         serializer = ProjectSerializerRead(queryset, many=True, context=self.get_serializer_context())
         return Response(serializer.data)
@@ -87,15 +90,36 @@ def delete_portfolio(request, username):
     return Response(status=status.HTTP_200_OK)
 
 @api_view(['GET',])
-def delete_project(request, username):
+def delete_project(request, projectname):
     context = {}
-
     try:
-        User = get_user_model()
-        user = User.objects.get(username=username)
-        print(user.project)
-    except User.DoesNotExist:
-        context['msg'] = 'User does not exist.'
+        projects = Project.objects.all()
+        print(projects)
+        if projectname:
+            projects = projects.filter(name=projectname)
+            projects.delete()
+            print(projects)
+            context['msg'] = "Successfully deleted."
+        else:
+            context['msg'] = "Please provide a project name."
+    except Exception as e:
+        context['msg'] = str(e)
+    print(context['msg'])
+    return Response(status=status.HTTP_200_OK)
+
+@api_view(['GET',])
+def unfollow(request, pk_to, pk_from):
+    context = {}
+    try:
+        contacts = Contact.objects.all()
+        if pk_to and pk_from:
+            contacts = contacts.filter(user_to=pk_to,user_from=pk_from)
+            print(contacts)
+            contacts.delete()
+            print(contacts)
+            context['msg'] = "Successfully unfollowed."
+        else:
+            context['msg'] = "Please provide a pk_to and pk_from."
     except Exception as e:
         context['msg'] = str(e)
     print(context['msg'])
