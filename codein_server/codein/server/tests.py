@@ -7,7 +7,9 @@ from django.test import TestCase
 from .models import User
 from .serializers import UserDetailsSerializer
 from django.contrib.auth import get_user_model
-from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIClient
+from .views import UserViewset
+from rest_framework.test import force_authenticate
 
 
 class UserModelTest(TestCase):
@@ -42,11 +44,27 @@ class HomePageTests(TestCase):
     """ Test LOGIN + REGISTRATION """
 
     def setUp(self):
-        self.user = get_user_model().objects.create(username='some_user')
+        self.client = APIClient()
+        view = UserViewset
+        self.user = get_user_model().objects.create(username='some_user',password='top_secret', email='some_user@gmail.com')
+        self.user.save()
 
     def test_homepage(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
+
+    def test_login(self):
+        self.client.login(username='some_user',password='top_secret')
+
+    def test_authenticated(self):
+        user = User.objects.get(username='some_user')
+        request = self.client.get('/rest-auth/login/')
+        force_authenticate(request, user=user)
+        response = UserViewset(request) 
+        self.assertEqual(response.status_code, 200)
+
+
+
 
 
 
