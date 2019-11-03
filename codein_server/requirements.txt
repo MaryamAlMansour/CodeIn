@@ -20,7 +20,7 @@ filters==1.3.2
 filters-django==1.0.5
 get==0.0.39
 idna==2.6
-nltk==3.2.5
+nltk>=3.4.5
 nose==1.3.7
 oauthlib==2.0.6
 od==1.0
